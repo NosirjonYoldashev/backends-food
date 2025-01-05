@@ -3,18 +3,18 @@
 namespace App\Services;
 
 
-use App\Models\Supplier;
-use App\Repositories\Supplier\SupplierRepositoryInterface;
-use App\Transformers\SupplierTransformer;
+use App\Models\IngredientInvoice;
+use App\Repositories\IngredientInvoice\IngredientInvoiceRepository;
+use App\Transformers\IngredientInvoiceTransformer;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Log\Logger;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Item;
 use Prettus\Validator\Exceptions\ValidatorException;
 
-class SupplierService extends BaseService
+class IngredientInvoiceService extends BaseService
 {
-    public function __construct(DatabaseManager $databaseManager, Logger $logger, SupplierRepositoryInterface $repository)
+    public function __construct(DatabaseManager $databaseManager, Logger $logger, IngredientInvoiceRepository $repository)
     {
         parent::__construct($databaseManager, $logger, $repository);
 
@@ -23,16 +23,16 @@ class SupplierService extends BaseService
 
     public function all(): array
     {
-        return $this->formatData($this->repository->paginate(),'suppliers');
+        return $this->formatData($this->repository->paginate(),'ingredient_invoices');
     }
 
 
-    public function show(Supplier $supplier): array
+    public function show(IngredientInvoice $supplier): array
     {
         $fractal = new Manager();
-        $resource = new Item($supplier, new SupplierTransformer());
+        $resource = new Item($supplier, new IngredientInvoiceTransformer());
 
-        return $this->formatData($fractal->createData($resource)->toArray(),'supplier');
+        return $this->formatData($fractal->createData($resource)->toArray(),'ingredient_invoice');
     }
 
 
@@ -52,14 +52,14 @@ class SupplierService extends BaseService
     /**
      * @throws ValidatorException
      */
-    public function update(Supplier $supplier, $data): array
+    public function update(IngredientInvoice $supplier, $data): array
     {
         $updated_data = $this->repository->skipPresenter()->update($data,$supplier->id);
 
         return $this->show($updated_data);
     }
 
-    public function delete(Supplier $supplier)
+    public function delete(IngredientInvoice $supplier)
     {
         return $supplier->delete();
     }

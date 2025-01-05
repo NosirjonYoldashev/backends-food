@@ -6,7 +6,6 @@ use App\Enums\StatusEnum;
 use App\Http\Requests\SupplierRequest;
 use App\Models\Supplier;
 use App\Services\SupplierService;
-use Illuminate\Http\JsonRespons;
 use Prettus\Validator\Exceptions\ValidatorException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;

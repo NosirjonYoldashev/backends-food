@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Repositories\Supplier;
+namespace App\Repositories\IngredientInvoice;
 
-use App\Models\Supplier;
-use App\Presenters\SupplierPresenter;
+use App\Models\IngredientInvoice;
+use App\Presenters\IngredientInvoicePresenter;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Exceptions\RepositoryException;
 
 /**
- * Class IngredientInvoiceItemRepository
+ * Class IngredientInvoiceRepository.
  *
  * @package namespace App\Repositories\User;
  */
-class SupplierRepository extends BaseRepository implements SupplierRepositoryInterface
+class IngredientInvoiceRepository extends BaseRepository implements IngredientInvoiceRepositoryInterface
 {
     /**
      * Specify Model class name
@@ -22,7 +22,7 @@ class SupplierRepository extends BaseRepository implements SupplierRepositoryInt
      */
     public function model(): string
     {
-        return Supplier::class;
+        return IngredientInvoice::class;
     }
 
 
@@ -38,13 +38,12 @@ class SupplierRepository extends BaseRepository implements SupplierRepositoryInt
 
     public function presenter(): string
     {
-        return SupplierPresenter::class;
+        return IngredientInvoicePresenter::class;
     }
 
 
     protected $fieldSearchable = [
         'name' => 'like',
-        'phone_number' => 'like',
         'id'
     ];
 }
