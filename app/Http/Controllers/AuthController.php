@@ -19,14 +19,17 @@ class AuthController extends ApiController
         /**
          * @var $user User
          */
+        // Find user by username
         $user = User::where('username', $credentials['username'])->first();
 
 
+        // Check if user exists and password is correct
         if (!$user || !Hash::check($credentials['password'], $user->password)) {
             return $this->errorResponse('Invalid credentials', 401);
         }
 
-
+        // Delete existing tokens if you want to ensure one token per user
+        // $user->tokens()->delete();
 
         // Create new token
         $token = $user->createToken('auth-token')->plainTextToken;

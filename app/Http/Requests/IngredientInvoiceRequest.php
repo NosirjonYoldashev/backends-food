@@ -2,38 +2,37 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\StatusEnum;
 use Illuminate\Foundation\Http\FormRequest;
 
 class IngredientInvoiceRequest extends FormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     */
     public function authorize(): bool
     {
         return true;
     }
 
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
     public function rules(): array
     {
-        $ingredient_invoices = $this->route('ingredient_invoices');
-
-        return match ($this->route()?->getName()){
-            'ingredient_invoices.store' => [
-                'name' => 'required|string|max:50',
-            ],
+        return  match ($this->route()?->getName()){
+            'ingredient_invoices.store',
             'ingredient_invoices.update' => [
-                'name' => 'required|string|max:50' .$ingredient_invoices->id,
+                'items' => 'required|array|min:1',
+                'items.*.ingredient_id' => 'required|exists:ingredients,id',
+                'items.*.quantity' => 'required|numeric|min:1',
+                'items.*.price' => 'required|numeric|min:1',
+                'items.*.arrival_price' => 'required|numeric|min:1',
+                'items.*.date_expire' => 'required|date|date_format:d.m.Y',
             ],
+
             default => []
         };
-    }
-
-    public function messages(): array
-    {
-        return [
-            'name.required' => 'Nomi kiritilishi shart.',
-            'name.max' => 'Nom 50 belgidan oshmasligi kerak.',
-            'status.required' => 'Status tanlash shart.',
-            'status.in' => 'Status noto‘g‘ri qiymatda.',
-        ];
     }
 }

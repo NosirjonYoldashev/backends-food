@@ -13,16 +13,16 @@ class IngredientTransformer extends TransformerAbstract
      * @param Ingredient $model
      * @return array
      */
-    public function transform(Ingredient $model): array
+    public function transform(Ingredient $ingredient): array
     {
         return [
-            'id' => (int) $model->id,
-            'name' => $model->name,
-            'measurement_id' => $model->measurement_id,
-            'quantity' => $model->quantity,
-            'price' => $model->price,
-            'expiration_date' => $model->expiration_date,
-            'description' => $model->description
+            'id' => (int) $ingredient->id,
+            'name' => $ingredient->name,
+            'measurement_id' => $ingredient->measurement_id,
+            'quantity' => $ingredient->quantity,
+            'price' => $ingredient->price,
+            'expiration_date' => $ingredient->expiration_date,
+            'description' => $ingredient->description
         ];
     }
 

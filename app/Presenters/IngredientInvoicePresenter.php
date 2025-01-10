@@ -2,9 +2,8 @@
 
 namespace App\Presenters;
 
-use App\Transformers\IngredientInvoiceTransformer;
+use App\Transformers\IngredientInvoice\IngredientInvoiceTransformer;
 use League\Fractal\TransformerAbstract;
-use Override;
 use Prettus\Repository\Presenter\FractalPresenter;
 
 /**
@@ -19,7 +18,6 @@ class IngredientInvoicePresenter extends FractalPresenter
      *
      * @return IngredientInvoiceTransformer|TransformerAbstract
      */
-    #[Override]
     public function getTransformer(): IngredientInvoiceTransformer|TransformerAbstract
     {
         return new IngredientInvoiceTransformer();

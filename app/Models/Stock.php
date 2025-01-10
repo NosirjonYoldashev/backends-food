@@ -6,20 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Stock extends Model
 {
+    protected $table = 'stock';
+
     protected $fillable = [
         'ingredient_id',
         'quantity',
+        'date_expire',
         'price',
-        'user_id',
+        'arrival_price',
     ];
-
-    public function ingredient()
-    {
-        return $this->belongsTo(Ingredient::class, 'ingredient_id');
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
 }

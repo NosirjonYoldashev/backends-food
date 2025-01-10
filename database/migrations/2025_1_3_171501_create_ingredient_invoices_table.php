@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('suppliers', function (Blueprint $table) {
+        Schema::create('ingredient_invoices', static function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('phone_number',32)->nullable();
-            $table->string('address')->nullable();
-            $table->enum('status', ['active', 'inactive'])->default('active');
-            $table->string('slug',255)->nullable();
-            $table->decimal('balance',15)->default(0.00);
+            $table->foreignId('user_id')->constrained('users')->onDelete('restrict');
+            $table->decimal('total_amount',15)->default(0.00);
+            $table->string('comment')->nullable();
+            $table->enum('status',['draft', 'confirmed','rejected'])->default('draft');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('suppliers');
+        Schema::dropIfExists('ingredient_invoices');
     }
 };

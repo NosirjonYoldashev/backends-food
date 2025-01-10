@@ -2,26 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\InvoiceEnum;
 use App\Http\Requests\IngredientInvoiceRequest;
+use App\Http\Requests\IngredientRequest;
 use App\Models\IngredientInvoice;
 use App\Services\IngredientInvoiceService;
+use Illuminate\Http\Request;
+use RuntimeException;
+use Illuminate\Http\JsonResponse;
 use Prettus\Validator\Exceptions\ValidatorException;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 
 class IngredientInvoiceController extends ApiController
 {
 
-    public function __construct(readonly protected IngredientInvoiceService $service ){}
+    public function __construct(readonly protected IngredientInvoiceService $service)
+    {
+    }
 
-    public function index(): JsonResponse
+
+    public function index()
     {
         return $this->successResponse($this->service->all());
     }
 
-    public function show(IngredientInvoice $ingredient_invoices): JsonResponse
+    public function show(IngredientInvoice $IngredientInvoice): JsonResponse
     {
-        return $this->successResponse($this->service->show($ingredient_invoices));
+        return $this->successResponse($this->service->show($IngredientInvoice));
     }
 
     /**
@@ -29,33 +35,36 @@ class IngredientInvoiceController extends ApiController
      */
     public function store(IngredientInvoiceRequest $request): JsonResponse
     {
-        if($request->validated()){
-            return $this->successResponse($this->service->create($request->validated()), Response::HTTP_CREATED);
-        }
-
-        return $this->errorResponse('Invalid data', Response::HTTP_UNPROCESSABLE_ENTITY);
+        return $this->successResponse($this->service->create($request->validated()));
     }
 
-    /**
-     * @throws ValidatorException
-     */
-    public function update(IngredientInvoiceRequest $request, IngredientInvoice $ingredient_invoices): JsonResponse
+    public function reject(IngredientInvoice $IngredientInvoice): JsonResponse
     {
-        if($request->validated()){
-            return $this->successResponse($this->service->update($ingredient_invoices,$request->validated()));
+        if($IngredientInvoice->status !== InvoiceEnum::DRAFT){
+            throw new RuntimeException('Invoice cannot be rejected');
         }
 
-        return $this->errorResponse('Invalid data', Response::HTTP_UNPROCESSABLE_ENTITY);
+        return $this->successResponse($this->service->reject($IngredientInvoice));
     }
 
-    public function destroy(IngredientInvoice $ingredient_invoices): JsonResponse
+    public function confirm(IngredientInvoiceRequest $request, IngredientInvoice $ingredientInvoice): JsonResponse
     {
-        if($this->service->delete($ingredient_invoices)){
-            return $this->successResponse([],Response::HTTP_NO_CONTENT);
+        if ($ingredientInvoice->status !== InvoiceEnum::DRAFT) {
+            throw new RuntimeException('Invoice cannot be confirmed');
         }
 
-        return $this->errorResponse('No deleting',500);
+        $items = $request->input('items');
 
+        // Ikkita argument uzatish: $ingredientInvoice va $request
+        return $this->successResponse($this->service->confirm($ingredientInvoice, $items));
     }
 
+    public function update(IngredientInvoice $IngredientInvoice, IngredientInvoiceRequest $request): JsonResponse
+    {
+        if($IngredientInvoice->status !== InvoiceEnum::DRAFT){
+            throw new RuntimeException('Invoice cannot be updated');
+        }
+        return $this->successResponse($this->service->update($IngredientInvoice,$request->validated()));
+
+    }
 }

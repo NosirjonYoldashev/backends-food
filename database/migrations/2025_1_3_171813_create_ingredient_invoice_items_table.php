@@ -9,14 +9,17 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('stocks', function (Blueprint $table) {
+        Schema::create('ingredient_invoice_items', static function (Blueprint $table) {
             $table->id();
             $table->foreignId('ingredient_id')->constrained('ingredients')->onDelete('restrict');
             $table->unsignedInteger('quantity');
-            $table->decimal('price', 10, 2);
-            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->decimal('arrival_price',15)->default(0.00);
+            $table->decimal('price',15)->default(0.00);
+            $table->foreignId('ingredient_invoice_id')->constrained('ingredient_invoices')->onDelete('restrict');
+            $table->date('date_expire');
+
             $table->timestamps();
         });
     }
@@ -26,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('stocks');
+        Schema::dropIfExists('stock_invoice_items');
     }
 };

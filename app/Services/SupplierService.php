@@ -4,7 +4,7 @@ namespace App\Services;
 
 
 use App\Models\Supplier;
-use App\Repositories\Supplier\SupplierRepositoryInterface;
+use App\Repositories\Supplier\SupplierRepository;
 use App\Transformers\SupplierTransformer;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Log\Logger;
@@ -14,7 +14,7 @@ use Prettus\Validator\Exceptions\ValidatorException;
 
 class SupplierService extends BaseService
 {
-    public function __construct(DatabaseManager $databaseManager, Logger $logger, SupplierRepositoryInterface $repository)
+    public function __construct(DatabaseManager $databaseManager, Logger $logger, SupplierRepository $repository)
     {
         parent::__construct($databaseManager, $logger, $repository);
 
@@ -45,7 +45,7 @@ class SupplierService extends BaseService
         $supplier =  $this->repository->skipPresenter()->create($data);
 
         $supplier->refresh();
-        return $this->show($supplier);
+       return $this->show($supplier);
     }
 
 

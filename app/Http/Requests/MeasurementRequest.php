@@ -22,14 +22,14 @@ class MeasurementRequest extends FormRequest
     public function rules(): array
     {
 
-        $measurements = $this->route('measurement');
+        $measurements = $this->route('measurements');
 
         return match ($this->route()?->getName()) {
             'measurements.store' =>   [
                 'name' => 'required|string|max:100|min:3|unique:measurements,name',
             ],
             'measurements.update' =>   [
-                'name' => 'required|string|max:100|min:3|unique:measurements,name,' . $measurement->id,
+                'name' => 'required|string|max:100|min:3|unique:measurements,name,' . $measurements->id,
 
             ]
         };

@@ -2,6 +2,7 @@
 
 namespace App\Presenters;
 
+use App\Transformers\IngredientInvoice\IngredientInvoiceAllTransformer;
 use App\Transformers\IngredientTransformer;
 use League\Fractal\TransformerAbstract;
 use Override;
@@ -17,7 +18,7 @@ class IngredientPresenter extends FractalPresenter
     /**
      * Transformer
      *
-     * @return IngredientTransformer|TransformerAbstract
+     * @return IngredientInvoiceAllTransformer|TransformerAbstract
      */
     #[Override]
     public function getTransformer(): IngredientTransformer|TransformerAbstract

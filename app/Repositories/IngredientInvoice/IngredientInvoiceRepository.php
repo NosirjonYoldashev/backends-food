@@ -3,15 +3,14 @@
 namespace App\Repositories\IngredientInvoice;
 
 use App\Models\IngredientInvoice;
-use App\Presenters\IngredientInvoicePresenter;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Exceptions\RepositoryException;
 
 /**
- * Class IngredientInvoiceRepository.
+ * Class Repository.
  *
- * @package namespace App\Repositories\User;
+ * @package namespace App\Repositories;
  */
 class IngredientInvoiceRepository extends BaseRepository implements IngredientInvoiceRepositoryInterface
 {
@@ -36,14 +35,7 @@ class IngredientInvoiceRepository extends BaseRepository implements IngredientIn
     }
 
 
-    public function presenter(): string
-    {
-        return IngredientInvoicePresenter::class;
-    }
-
-
     protected $fieldSearchable = [
-        'name' => 'like',
         'id'
     ];
 }
