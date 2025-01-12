@@ -14,8 +14,6 @@ class Ingredient extends Model
     protected $fillable = [
         'measurement_id',
         'name',
-        'quantity',
-        'price',
         'expiration_date',
         'description',
     ];

@@ -19,8 +19,6 @@ class IngredientTransformer extends TransformerAbstract
             'id' => (int) $ingredient->id,
             'name' => $ingredient->name,
             'measurement_id' => $ingredient->measurement_id,
-            'quantity' => $ingredient->quantity,
-            'price' => $ingredient->price,
             'expiration_date' => $ingredient->expiration_date,
             'description' => $ingredient->description
         ];

@@ -15,8 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('measurement_id')->constrained('measurements')->onDelete('restrict');
             $table->string('name');
-            $table->decimal('quantity', 10, 2);
-            $table->decimal('price', 10, 2);
             $table->date('date_expire')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
