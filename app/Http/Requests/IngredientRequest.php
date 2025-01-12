@@ -10,16 +10,30 @@ class IngredientRequest extends FormRequest
         return true;
     }
 
-    public function rules()
+    public function rules(): array
     {
-        return [
-            'measurement_id' => 'required|exists:measurements,id',
-            'name' => 'required|string|max:255',
-            'quantity' => 'required|numeric|min:0.01',
-            'price' => 'required|numeric|min:0.01',
-            'expiration_date' => 'nullable|date|after_or_equal:today',
-            'description' => 'nullable|string',
-        ];
+        $ingredient = $this->route('ingredient');
+
+        return match ($this->route()?->getName()) {
+            'ingredients.store' => [
+                'measurement_id' => 'required|exists:measurements,id',
+                'name' => 'required|string|max:255',
+                'quantity' => 'required|numeric|min:0.01',
+                'price' => 'required|numeric|min:0.01',
+                'expiration_date' => 'nullable|date|after_or_equal:today',
+                'description' => 'nullable|string',
+            ],
+            'ingredients.update' => [
+                'measurement_id' => 'required|exists:measurements,id',
+                'name' => 'required|string|max:255' . $ingredient->id,
+                'quantity' => 'required|numeric|min:0.01',
+                'price' => 'required|numeric|min:0.01',
+                'expiration_date' => 'nullable|date|after_or_equal:today',
+                'description' => 'nullable|string',
+
+            ],
+            default => []
+        };
     }
 
     public function messages()
